@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль — {{ user.display_name if user else 'Гость' }}{% endblock %}
+
+{% block content %}
+<!-- 🔹 ВРЕМЕННАЯ ЗАГЛУШКА: удали это, когда начнёшь вёрстку -->
+<div style="color: white; padding: 40px; text-align: center;">
+    <h1>👋 Профиль: {{ user.display_name if user else 'Неизвестно' }}</h1>
+    <p>Уровень: {{ user.level if user else '?' }} | XP: {{ user.total_xp if user else 0 }}</p>
+    <p style="color: #888; margin-top: 30px;">
+        🎨 Здесь будет красивый дизайн (файл: templates/profile.html)
+    </p>
+</div>
+
+<!-- 🔹 Данные для отладки (удали потом) -->
+<details style="max-width: 800px; margin: 20px auto; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; color: #aaa;">
+    <summary style="cursor: pointer; color: #e94560;">🔧 Отладочная информация (нажми, чтобы открыть)</summary>
+    <pre style="margin-top: 10px; font-size: 12px;">
+user: {{ user|tojson(indent=2) if user else 'None' }}
+top_parent_skills: {{ top_parent_skills|length }} шт.
+top_child_skills: {{ top_child_skills|length }} шт.
+tasks: {{ tasks|length }} шт.
+    </pre>
+</details>
+{% endblock %}

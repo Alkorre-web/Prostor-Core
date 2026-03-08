@@ -1,0 +1,53 @@
+# 🔹 Подключение к БД
+from database import get_db_connection
+
+conn = get_db_connection()
+user_id = session.get('user_id')
+
+# Запрос с параметрами
+user = conn.execute(
+    'SELECT * FROM users WHERE id = ?',
+    (user_id,)
+).fetchone()
+
+# Конвертация Row → dict
+def row_to_dict(row):
+    return dict(row) if row else None
+
+def rows_to_dicts(rows):
+    return [dict(row) for row in rows]
+
+# Использование
+skills = rows_to_dicts(conn.execute(
+    'SELECT * FROM skills WHERE user_id = ? LIMIT 4',
+    (user_id,)
+).fetchall())
+
+conn.close()
+
+# 🔹 Сессии Flask
+from flask import session
+
+# Установка
+session['user_id'] = 1
+session['username'] = 'admin'
+
+# Чтение
+user_id = session.get('user_id')
+
+# Удаление
+session.pop('user_id', None)
+
+# 🔹 Маршруты с параметрами
+@app.route('/api/skills/<int:skill_id>/add-xp', methods=['POST'])
+def add_xp(skill_id):
+    data = request.json
+    xp_amount = data.get('xp', 10)
+    # ... логика
+    return jsonify({'success': True})
+
+# 🔹 Рендеринг шаблона
+return render_template('profile.html',
+                     user=user,
+                     skills=skills,
+                     tasks=tasks)

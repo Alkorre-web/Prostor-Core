@@ -1,0 +1,52 @@
+/* 🔹 Базовая карточка */
+.card {
+    background: rgba(22, 33, 62, 0.8);
+    border: 1px solid rgba(233, 69, 96, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.15);
+}
+
+/* 🔹 Сетка виджетов */
+.widgets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* 🔹 Элементы списков */
+.skill-item, .task-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent, #e94560);
+}
+
+/* 🔹 Аватарка */
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e94560, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    border: 3px solid rgba(255,255,255,0.2);
+}
+
+/* 🔹 Адаптив */
+@media (max-width: 768px) {
+    .widgets-grid {
+        grid-template-columns: 1fr;
+    }
+}

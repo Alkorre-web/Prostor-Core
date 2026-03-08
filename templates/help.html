@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+
+{% block title %}Помощь — Шпаргалки{% endblock %}
+
+{% block content %}
+<div class="help-wrapper">
+
+    <!-- 🔹 ЛЕВАЯ ПАНЕЛЬ: Архитектура -->
+    <aside class="help-panel left-panel">
+        <h2 class="panel-title">🏗️ Архитектура проекта</h2>
+
+        <div class="accordion">
+            {% for section in arch_sections %}
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon">▶</span>
+                    <span class="accordion-title">{{ section.title }}</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="content-text">
+                        {{ section.content|replace('\n', '<br>')|safe }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="empty">Файлы не найдены в help_text/architecture/</p>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <!-- 🔹 ПРАВАЯ ПАНЕЛЬ: Код и примеры -->
+    <aside class="help-panel right-panel">
+        <h2 class="panel-title">💻 Код и примеры</h2>
+
+        <div class="accordion">
+            {% for section in code_sections %}
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon">▶</span>
+                    <span class="accordion-title">{{ section.title }}</span>
+                    <span class="file-name">{{ section.filename }}</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="content-code">
+                        <pre><code>{{ section.content }}</code></pre>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="empty">Файлы не найдены в help_text/code/</p>
+            {% endfor %}
+        </div>
+    </aside>
+
+</div>
+
+<!-- Подключаем JavaScript -->
+<script src="{{ url_for('static', filename='js/help.js') }}"></script>
+
+<style>
+/* ==================== */
+/* ДВУХПАНЕЛЬНЫЙ МАКЕТ  */
+/* ==================== */
+
+.help-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: calc(100vh - 150px);
+}
+
+.help-panel {
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 16px;
+    padding: 25px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+}
+
+.panel-title {
+    color: #e94560;
+    font-size: 1.8em;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(233, 69, 96, 0.3);
+    text-align: center;
+}
+
+/* ==================== */
+/* АККОРДЕОН            */
+/* ==================== */
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.accordion-item {
+    background: rgba(15, 52, 96, 0.4);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    transition: border-color 0.3s;
+}
+
+.accordion-item:hover {
+    border-color: rgba(233, 69, 96, 0.5);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(22, 33, 62, 0.8);
+    border: none;
+    color: #e0e0e0;
+    font-size: 1em;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.accordion-header:hover {
+    background: rgba(233, 69, 96, 0.2);
+}
+
+.accordion-icon {
+    font-size: 0.8em;
+    color: #e94560;
+    transition: transform 0.3s;
+    min-width: 20px;
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(90deg);
+}
+
+.accordion-title {
+    flex-grow: 1;
+    color: #ffffff;
+}
+
+.file-name {
+    font-size: 0.75em;
+    color: #888;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 2000px; /* Достаточно большое значение */
+    transition: max-height 0.5s ease-in;
+}
+
+/* ==================== */
+/* КОНТЕНТ              */
+/* ==================== */
+
+.content-text {
+    padding: 20px;
+    color: #b8b8d1;
+    line-height: 1.8;
+    font-size: 0.95em;
+}
+
+.content-text code {
+    background: rgba(233, 69, 96, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    color: #ff6b6b;
+}
+
+.content-code {
+    padding: 0;
+    margin: 0;
+}
+
+.content-code pre {
+    margin: 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #e0e0e0;
+}
+
+.content-code code {
+    color: #4CAF50;
+}
+
+/* ==================== */
+/* ПУСТОЕ СОСТОЯНИЕ     */
+/* ==================== */
+
+.empty {
+    text-align: center;
+    color: #666;
+    padding: 40px 20px;
+    font-style: italic;
+}
+
+/* ==================== */
+/* СКРОЛЛБАР            */
+/* ==================== */
+
+.help-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.help-panel::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.help-panel::-webkit-scrollbar-thumb {
+    background: rgba(233, 69, 96, 0.5);
+    border-radius: 4px;
+}
+
+.help-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(233, 69, 96, 0.8);
+}
+
+/* ==================== */
+/* АДАПТИВ              */
+/* ==================== */
+
+@media (max-width: 1024px) {
+    .help-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .help-panel {
+        max-height: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .help-wrapper {
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .panel-title {
+        font-size: 1.4em;
+    }
+
+    .accordion-header {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
+
+    .content-code pre {
+        font-size: 11px;
+        padding: 15px;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,489 @@
+/* ==================== */
+/* RPG LIFE TRACKER     */
+/* ==================== */
+
+/* Сброс стилей */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Основной фон */
+body {
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* ==================== */
+/* НАВИГАЦИЯ            */
+/* ==================== */
+
+.navbar {
+    background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%);
+    width: 100%;
+    border-bottom: 3px solid #e94560;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Контейнер вкладок — с горизонтальным скроллом для мобильных */
+.nav-tabs {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+}
+.nav-tabs::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+/* Логотип */
+.nav-brand {
+    padding: 18px 30px;
+    background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    border-right: 3px solid #0f3460;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* ==================== */
+/* КНОПКИ НАВИГАЦИИ     */
+/* ==================== */
+
+.nav-tab {
+    flex: 0 0 auto;
+    min-width: 120px;
+    max-width: 180px;
+    padding: 18px 15px;
+    text-align: center;
+    color: #b8b8d1;
+    text-decoration: none;
+    border-right: 2px solid #0f3460;
+    background: rgba(22, 33, 62, 0.6);
+    /* Анимация только конкретных свойств */
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Последняя кнопка без границы */
+.nav-tab:last-child {
+    border-right: none;
+}
+
+/* Эффект блеска — БЕЗ transition (мгновенно) */
+.nav-tab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(233, 69, 96, 0.4), transparent);
+}
+
+/* При наведении: блеск + стили */
+.nav-tab:hover::before {
+    left: 100%;
+    transition: left 0.5s ease;
+}
+
+.nav-tab:hover {
+    background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+    color: #e94560;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+}
+
+/* Активная кнопка */
+.nav-tab.active {
+    background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+    color: white;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================== */
+/* КОНТЕНТ              */
+/* ==================== */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Заголовки */
+h1 {
+    color: #e94560;
+    font-size: 42px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    border-bottom: 3px solid #e94560;
+    padding-bottom: 15px;
+    display: inline-block;
+}
+
+/* ==================== */
+/* ЗАГЛУШКА             */
+/* ==================== */
+
+.wip-card {
+    background: linear-gradient(135deg, rgba(22, 33, 62, 0.8) 0%, rgba(15, 52, 96, 0.8) 100%);
+    border: 3px dashed #e94560;
+    border-radius: 15px;
+    padding: 80px 40px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(233, 69, 96, 0.2);
+}
+
+.wip-card h2 {
+    color: #e94560;
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+    animation: pulse 2s infinite;
+}
+
+.wip-card p {
+    color: #b8b8d1;
+    font-size: 18px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* ==================== */
+/* ТАБЛИЦА              */
+/* ==================== */
+
+.goals-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.goals-table th,
+.goals-table td {
+    padding: 18px 15px;
+    text-align: left;
+    border-bottom: 2px solid #0f3460;
+}
+
+.goals-table th {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+    color: #e94560;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.goals-table tr:last-child td {
+    border-bottom: none;
+}
+
+.goals-table tr:hover {
+    background: rgba(233, 69, 96, 0.1);
+    transition: background 0.3s;
+}
+
+/* ==================== */
+/* АДАПТИВНОСТЬ         */
+/* ==================== */
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .nav-brand {
+        padding: 15px 20px;
+        font-size: 20px;
+    }
+    .nav-tab {
+        padding: 15px 10px;
+        font-size: 12px;
+        min-width: 100px;
+    }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .nav-brand {
+        padding: 12px 15px;
+        font-size: 18px;
+    }
+    .nav-tab {
+        min-width: 110px;
+        padding: 12px 8px;
+        font-size: 11px;
+    }
+    /* Скрываем последние кнопки на очень маленьких экранах */
+    .nav-tab:nth-child(n+7) {
+        display: none;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+    .nav-brand {
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+    .nav-tab {
+        min-width: 90px;
+        padding: 10px 6px;
+        font-size: 10px;
+    }
+    h1 {
+        font-size: 28px;
+    }
+}
+
+/* ==================== */
+/* ДЕРЕВО НАВЫКОВ       */
+/* ==================== */
+
+.skill-tree {
+    padding: 20px 0;
+}
+
+.skill-node {
+    margin-bottom: 15px;
+}
+
+.skill-card {
+    background: rgba(22, 33, 62, 0.8);
+    border-radius: 10px;
+    padding: 15px 20px;
+    border-left: 4px solid #e94560;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.skill-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+}
+
+.skill-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.skill-icon-cell {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 8px;
+}
+
+.skill-icon {
+    font-size: 24px;
+    display: inline-block;
+}
+.skill-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e0e0e0;
+    flex-grow: 1;
+}
+
+.skill-level {
+    background: rgba(233, 69, 96, 0.2);
+    color: #e94560;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.skill-progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.skill-xp {
+    font-size: 12px;
+    color: #b8b8d1;
+    text-align: right;
+}
+
+/* Линии иерархии */
+.skill-node::before {
+    content: '';
+    position: absolute;
+    left: {{ depth * 30 - 15 }}px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(233, 69, 96, 0.3);
+}
+
+/* ==================== */
+/* ТАБЛИЦА ЦЕЛЕЙ        */
+/* ==================== */
+
+.page-header h1 {
+    color: #ff6b6b;
+    font-size: 42px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.table-container {
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.goals-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Заголовок таблицы с градиентом (тёмные края, светлая середина) */
+.goals-table thead tr {
+    background: linear-gradient(90deg,
+        rgba(15, 52, 96, 0.9) 0%,
+        rgba(22, 33, 62, 0.7) 20%,
+        rgba(30, 60, 114, 0.8) 50%,
+        rgba(22, 33, 62, 0.7) 80%,
+        rgba(15, 52, 96, 0.9) 100%
+    );
+    border-bottom: 3px solid #e94560;
+}
+
+.goals-table th {
+    padding: 18px 15px;
+    text-align: left;
+    color: #ff6b6b;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+    border-right: 1px solid rgba(15, 52, 96, 0.5);
+}
+
+.goals-table th:last-child {
+    border-right: none;
+}
+
+/* Строки таблицы */
+.goals-table tbody tr {
+    background: rgba(22, 33, 62, 0.4);
+    border-bottom: 1px solid rgba(15, 52, 96, 0.3);
+    transition: background 0.3s ease;
+}
+
+.goals-table tbody tr:nth-child(even) {
+    background: rgba(15, 52, 96, 0.3);
+}
+
+.goals-table tbody tr:hover {
+    background: rgba(233, 69, 96, 0.15);
+}
+
+.goals-table td {
+    padding: 15px;
+    color: #e0e0e0;
+    border-right: 1px solid rgba(15, 52, 96, 0.2);
+}
+
+.goals-table td:last-child {
+    border-right: none;
+}
+
+/* Название навыка */
+.skill-name {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Иконка */
+.icon-cell {
+    font-size: 24px;
+    text-align: center;
+}
+
+/* ======================================== */
+/* RARITY ЦВЕТА (все 6 уровней)            */
+/* ======================================== */
+
+/* БЕЛЫЙ (Common) */
+.rarity-cell[data-color="#f8f9fa"] {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #dee2e6;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+
+/* ЗЕЛЁНЫЙ (Uncommon) */
+.rarity-cell[data-color="#4CAF50"] {
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    border: 2px solid #4CAF50;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.6);
+}
+
+/* СИНИЙ (Rare) */
+.rarity-cell[data-color="#0061ff"] {
+    background: linear-gradient(135deg, #0061ff 0%, #4ECDC4 100%);
+    border: 2px solid #0061ff;
+    box-shadow: 0 0 15px rgba(0, 97, 255, 0.6);
+}
+
+/* ФИОЛЕТОВЫЙ (Epic) */
+.rarity-cell[data-color="#764ba2"] {
+    background: linear-gradient(135deg, #764ba2 0%, #a855f7 100%);
+    border: 2px solid #764ba2;
+    box-shadow: 0 0 15px rgba(118, 75, 162, 0.6);
+}
+
+/* ЖЁЛТЫЙ (Legendary) */
+.rarity-cell[data-color="#FFD700"] {
+    background: linear-gradient(135deg, #FFD700 0%, #FFE55C 100%);
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+/* ТЁМНО-КРАСНЫЙ (Mythic) */
+.rarity-cell[data-color="#dc2626"] {
+    background: linear-gradient(135deg, #dc2626 0%, #e94560 100%);
+    border: 2px solid #dc2626;
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.6);
+}

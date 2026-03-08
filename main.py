@@ -46,7 +46,6 @@ def force_login():
 # =============================================================================
 
 @app.route('/api')
-@app.route('/search')
 @app.route('/settings')
 def placeholder():
     return render_template('placeholder.html')
@@ -344,6 +343,34 @@ def add_xp_to_skill(skill_id, xp_amount):
         'new_level': new_level,
         'leveled_up': new_level > old_level
     }
+
+
+@app.route('/search')
+@app.route('/knowledge')  # Дублируем для удобства
+def knowledge_base_page():
+    """Страница локальной базы знаний (как Obsidian)"""
+    conn = get_db_connection()
+    user_id = session.get('user_id')
+
+    # Пока просто получаем список папок и заметок (заглушка)
+    folders = conn.execute(
+        'SELECT * FROM note_folders WHERE user_id = ? AND parent_id IS NULL',
+        (user_id,)
+    ).fetchall()
+
+    notes = conn.execute(
+        'SELECT id, title, created_at FROM notes WHERE user_id = ? ORDER BY updated_at DESC LIMIT 10',
+        (user_id,)
+    ).fetchall()
+
+    conn.close()
+
+    return render_template('knowledge_base.html',
+                           folders=rows_to_dicts(folders),
+                           recent_notes=rows_to_dicts(notes))
+
+
+
 
 # =============================================================================
 # API ENDPOINTS

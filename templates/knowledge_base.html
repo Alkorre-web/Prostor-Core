@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}База знаний — Простор{% endblock %}
+
+{% block content %}
+<div class="knowledge-container">
+
+    <!-- 🔹 ЛЕВАЯ ПАНЕЛЬ: Каталог -->
+    <aside class="sidebar">
+        <h3>📁 Папки</h3>
+        <ul class="folder-tree">
+            {% for folder in folders %}
+            <li class="folder-item" data-id="{{ folder.id }}">
+                📂 {{ folder.name }}
+            </li>
+            {% else %}
+            <li class="empty">Нет папок</li>
+            {% endfor %}
+        </ul>
+
+        <button class="btn-small" style="margin-top: 20px;">+ Новая папка</button>
+    </aside>
+
+    <!-- 🔹 ПРАВАЯ ПАНЕЛЬ: Контент -->
+    <main class="content-area">
+        <header class="content-header">
+            <h2>🗒️ Недавние заметки</h2>
+            <button class="btn-primary">+ Новая заметка</button>
+        </header>
+
+        <div class="notes-grid">
+            {% for note in recent_notes %}
+            <article class="note-card" data-id="{{ note.id }}">
+                <h4>{{ note.title }}</h4>
+                <time>{{ note.created_at }}</time>
+            </article>
+            {% else %}
+            <p class="empty">Заметок пока нет. Создай первую!</p>
+            {% endfor %}
+        </div>
+    </main>
+
+</div>
+
+<!-- Подключаем скрипт -->
+<script src="{{ url_for('static', filename='js/knowledge_base.js') }}"></script>
+
+<style>
+/* Базовая сетка: две колонки */
+.knowledge-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    height: calc(100vh - 150px);
+}
+
+/* Сайдбар */
+.sidebar {
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 16px;
+    padding: 20px;
+    overflow-y: auto;
+    border: 1px solid rgba(233, 69, 96, 0.2);
+}
+
+.folder-tree {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.folder-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s;
+    color: #e0e0e0;
+}
+
+.folder-item:hover {
+    background: rgba(233, 69, 96, 0.2);
+}
+
+/* Область контента */
+.content-area {
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 16px;
+    padding: 25px;
+    overflow-y: auto;
+    border: 1px solid rgba(233, 69, 96, 0.2);
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.note-card {
+    background: rgba(15, 52, 96, 0.4);
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    border: 1px solid transparent;
+}
+
+.note-card:hover {
+    transform: translateY(-3px);
+    border-color: #e94560;
+}
+
+.note-card h4 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 1em;
+}
+
+.note-card time {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.empty {
+    color: #666;
+    text-align: center;
+    padding: 40px;
+    font-style: italic;
+}
+
+/* Кнопки */
+.btn-primary {
+    background: linear-gradient(135deg, #e94560, #ff6b6b);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+}
+
+.btn-small {
+    background: rgba(233, 69, 96, 0.2);
+    color: #e94560;
+    border: 1px solid rgba(233, 69, 96, 0.5);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s;
+}
+
+.btn-small:hover {
+    background: rgba(233, 69, 96, 0.4);
+}
+
+/* Адаптив */
+@media (max-width: 900px) {
+    .knowledge-container {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        max-height: 200px;
+    }
+}
+</style>
+{% endblock %}

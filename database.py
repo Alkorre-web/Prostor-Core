@@ -141,10 +141,41 @@ def init_db():
             FOREIGN KEY (skill_id) REFERENCES skills(id) ON DELETE CASCADE
         )
     ''')
+    # ========================================================================
+    # 9. ПАПКИ ДЛЯ ЗАМЕТОК (для базы знаний)
+    # ========================================================================
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS note_folders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            parent_id INTEGER,
+            name TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (parent_id) REFERENCES note_folders(id) ON DELETE CASCADE
+        )
+    ''')
 
+    # ========================================================================
+    # 10. ЗАМЕТКИ (для базы знаний)
+    # ========================================================================
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            folder_id INTEGER,
+            title TEXT NOT NULL,
+            content TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (folder_id) REFERENCES note_folders(id) ON DELETE CASCADE
+        )
+    ''')
+
+    print('✅ База данных инициализирована')
     conn.commit()
     conn.close()
-    print('✅ База данных инициализирована')
 
 
 def get_db_connection():

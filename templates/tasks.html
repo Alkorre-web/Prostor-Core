@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Задачи - Простор{% endblock %}
+
+{% block content %}
+<h1 style="color: white;">📋 Мои Задачи</h1>
+<p style="color: #aaa;">Всего: {{ tasks|length }}</p>
+
+{% if tasks %}
+    {% for task in tasks %}
+    <div style="
+        color: white; 
+        background: #2a2a4e; 
+        padding: 15px; 
+        margin: 10px 0; 
+        border-left: 4px solid {% if task['is_completed'] %}#00ff00{% else %}#e94560{% endif %};
+        border-radius: 4px;
+    ">
+        <!-- Заголовок задачи -->
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+            <strong style="font-size: 1.1em;">
+                {% if task['is_completed'] %}✅ {% elif task['priority'] == 1 %}🔥 {% else %}📌 {% endif %}
+                {{ task['title'] }}
+            </strong>
+            <span style="
+                background: #e94560; 
+                color: white; 
+                padding: 3px 10px; 
+                border-radius: 4px; 
+                font-size: 0.85em;
+                font-weight: bold;
+            ">
+                +{{ task['xp_reward'] }} XP
+            </span>
+        </div>
+
+        <!-- Привязка к навыку -->
+        {% if task['skill_icon'] and task['skill_name'] %}
+        <div style="font-size: 0.9em; color: #ccc; margin-bottom: 8px;">
+            {{ task['skill_icon'] }} <strong>{{ task['skill_name'] }}</strong>
+        </div>
+        {% endif %}
+
+        <!-- Мета-информация -->
+        <div style="font-size: 0.85em; color: #888; display: flex; gap: 15px; flex-wrap: wrap;">
+            {% if task['deadline'] %}
+            <span>📅 {{ task['deadline'] }}</span>
+            {% endif %}
+            <span>🔹 Приоритет: {{ task['priority'] }}</span>
+            <span>{{ '✅ Выполнено' if task['is_completed'] else '⏳ В работе' }}</span>
+        </div>
+    </div>
+    {% endfor %}
+
+{% else %}
+    <!-- Пустое состояние -->
+    <div style="
+        color: #888; 
+        text-align: center; 
+        padding: 60px 20px; 
+        background: #2a2a4e; 
+        border-radius: 8px;
+        margin-top: 20px;
+    ">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">🎉 Задач пока нет!</p>
+        <p style="font-size: 0.9em;">Добавь первую задачу и начни прокачивать навыки</p>
+    </div>
+{% endif %}
+{% endblock %}

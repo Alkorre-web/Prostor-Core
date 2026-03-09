@@ -1,0 +1,96 @@
+/* =============================================================================
+   PAGE: PROFILE
+   Стили для страницы профиля пользователя
+   ============================================================================= */
+
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info h1 {
+    margin: 0;
+    color: white;
+    font-size: 1.5em;
+}
+
+.username {
+    color: var(--color-muted);
+    margin: 4px 0 8px;
+}
+
+.stats-mini {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9em;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.widgets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.skills-list, .tasks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skill-item, .task-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent, var(--color-primary));
+}
+
+.skill-icon {
+    font-size: 1.3em;
+}
+
+.skill-name {
+    flex-grow: 1;
+    color: #eee;
+}
+
+.skill-level {
+    background: rgba(233, 69, 96, 0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    color: var(--color-primary);
+}
+
+.task-item.done {
+    opacity: 0.7;
+}
+
+.task-item.done .task-title {
+    text-decoration: line-through;
+}
+
+.task-xp {
+    background: var(--color-primary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    color: white;
+}

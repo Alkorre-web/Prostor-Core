@@ -1,0 +1,55 @@
+/* =============================================================================
+   PAGE: GOALS
+   Стили для страницы целей (двухпанельный вид)
+   ============================================================================= */
+
+.goals-container {
+    display: flex;
+    gap: 30px;
+    height: calc(100vh - 150px);
+}
+
+.left-panel {
+    width: 50%;
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 15px;
+    padding: 25px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+}
+
+.right-panel {
+    width: 50%;
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 15px;
+    padding: 25px;
+    overflow-y: auto;
+}
+
+.skills-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.skills-table th {
+    text-align: left;
+    padding: 12px 8px;
+    color: var(--color-primary);
+    font-weight: bold;
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.skills-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid rgba(15, 52, 96, 0.3);
+}
+
+.skill-row {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.skill-row:hover {
+    background: rgba(233, 69, 96, 0.2);
+    transform: translateX(5px);
+}

@@ -3,72 +3,23 @@
 {% block title %}Помощь — Шпаргалки{% endblock %}
 
 {% block content %}
-<div class="help-wrapper">
 
-    <!-- 🔹 ЛЕВАЯ ПАНЕЛЬ: Архитектура -->
-    <aside class="help-panel left-panel">
-        <h2 class="panel-title">🏗️ Архитектура проекта</h2>
-
-        <div class="accordion">
-            {% for section in arch_sections %}
-            <div class="accordion-item">
-                <button class="accordion-header" onclick="toggleAccordion(this)">
-                    <span class="accordion-icon">▶</span>
-                    <span class="accordion-title">{{ section.title }}</span>
-                </button>
-                <div class="accordion-content">
-                    <div class="content-text">
-                        {{ section.content|replace('\n', '<br>')|safe }}
-                    </div>
-                </div>
-            </div>
-            {% else %}
-            <p class="empty">Файлы не найдены в help_text/architecture/</p>
-            {% endfor %}
-        </div>
-    </aside>
-
-    <!-- 🔹 ПРАВАЯ ПАНЕЛЬ: Код и примеры -->
-    <aside class="help-panel right-panel">
-        <h2 class="panel-title">💻 Код и примеры</h2>
-
-        <div class="accordion">
-            {% for section in code_sections %}
-            <div class="accordion-item">
-                <button class="accordion-header" onclick="toggleAccordion(this)">
-                    <span class="accordion-icon">▶</span>
-                    <span class="accordion-title">{{ section.title }}</span>
-                    <span class="file-name">{{ section.filename }}</span>
-                </button>
-                <div class="accordion-content">
-                    <div class="content-code">
-                        <pre><code>{{ section.content }}</code></pre>
-                    </div>
-                </div>
-            </div>
-            {% else %}
-            <p class="empty">Файлы не найдены в help_text/code/</p>
-            {% endfor %}
-        </div>
-    </aside>
-
-</div>
-
-<!-- Подключаем JavaScript -->
-<script src="{{ url_for('static', filename='js/help.js') }}"></script>
-
+<!-- 🔹 Переопределяем container для этой страницы -->
 <style>
-/* ==================== */
-/* ДВУХПАНЕЛЬНЫЙ МАКЕТ  */
-/* ==================== */
+body > .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 20px !important;
+}
 
 .help-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     min-height: calc(100vh - 150px);
 }
 
@@ -79,6 +30,7 @@
     overflow-y: auto;
     max-height: calc(100vh - 200px);
     border: 1px solid rgba(233, 69, 96, 0.2);
+    width: 100% !important;
 }
 
 .panel-title {
@@ -89,10 +41,6 @@
     border-bottom: 2px solid rgba(233, 69, 96, 0.3);
     text-align: center;
 }
-
-/* ==================== */
-/* АККОРДЕОН            */
-/* ==================== */
 
 .accordion {
     display: flex;
@@ -165,13 +113,9 @@
 }
 
 .accordion-item.active .accordion-content {
-    max-height: 2000px; /* Достаточно большое значение */
+    max-height: 2000px;
     transition: max-height 0.5s ease-in;
 }
-
-/* ==================== */
-/* КОНТЕНТ              */
-/* ==================== */
 
 .content-text {
     padding: 20px;
@@ -208,20 +152,12 @@
     color: #4CAF50;
 }
 
-/* ==================== */
-/* ПУСТОЕ СОСТОЯНИЕ     */
-/* ==================== */
-
 .empty {
     text-align: center;
     color: #666;
     padding: 40px 20px;
     font-style: italic;
 }
-
-/* ==================== */
-/* СКРОЛЛБАР            */
-/* ==================== */
 
 .help-panel::-webkit-scrollbar {
     width: 8px;
@@ -241,15 +177,10 @@
     background: rgba(233, 69, 96, 0.8);
 }
 
-/* ==================== */
-/* АДАПТИВ              */
-/* ==================== */
-
 @media (max-width: 1024px) {
     .help-wrapper {
         grid-template-columns: 1fr;
     }
-
     .help-panel {
         max-height: none;
     }
@@ -260,20 +191,70 @@
         padding: 10px;
         gap: 15px;
     }
-
     .panel-title {
         font-size: 1.4em;
     }
-
     .accordion-header {
         padding: 12px 15px;
         font-size: 0.95em;
     }
-
     .content-code pre {
         font-size: 11px;
         padding: 15px;
     }
 }
 </style>
+
+<div class="help-wrapper">
+
+    <!-- 🔹 ЛЕВАЯ ПАНЕЛЬ: Архитектура -->
+    <aside class="help-panel left-panel">
+        <h2 class="panel-title">🏗️ Архитектура проекта</h2>
+
+        <div class="accordion">
+            {% for section in arch_sections %}
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon">▶</span>
+                    <span class="accordion-title">{{ section.title }}</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="content-text">
+                        {{ section.content|replace('\n', '<br>')|safe }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="empty">Файлы не найдены в help_text/architecture/</p>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <!-- 🔹 ПРАВАЯ ПАНЕЛЬ: Код и примеры -->
+    <aside class="help-panel right-panel">
+        <h2 class="panel-title">💻 Код и примеры</h2>
+
+        <div class="accordion">
+            {% for section in code_sections %}
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon">▶</span>
+                    <span class="accordion-title">{{ section.title }}</span>
+                    <span class="file-name">{{ section.filename }}</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="content-code">
+                        <pre><code>{{ section.content }}</code></pre>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="empty">Файлы не найдены в help_text/code/</p>
+            {% endfor %}
+        </div>
+    </aside>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/help.js') }}"></script>
 {% endblock %}

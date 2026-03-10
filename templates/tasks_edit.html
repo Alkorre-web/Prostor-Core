@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование задачи{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; padding: 20px;">
+    <div class="card">
+        <h2 style="color: #e94560; margin-bottom: 25px;">✏️ Редактировать задачу</h2>
+
+        <form method="POST">
+            <div style="margin-bottom: 20px;">
+                <label style="color: #888; display: block; margin-bottom: 5px;">Название</label>
+                <input type="text" name="title" value="{{ task.title }}" required
+                       style="width: 100%; padding: 12px; background: rgba(15, 52, 96, 0.4);
+                              border: 1px solid rgba(233, 69, 96, 0.3); border-radius: 8px;
+                              color: #e0e0e0; font-size: 1em;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="color: #888; display: block; margin-bottom: 5px;">Навык</label>
+                <select name="skill_id"
+                        style="width: 100%; padding: 12px; background: rgba(15, 52, 96, 0.4);
+                               border: 1px solid rgba(233, 69, 96, 0.3); border-radius: 8px;
+                               color: #e0e0e0; font-size: 1em;">
+                    <option value="">Не выбран</option>
+                    {% for skill in skills %}
+                    <option value="{{ skill.id }}" {% if task.skill_id == skill.id %}selected{% endif %}>
+                        {{ skill.icon }} {{ skill.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div>
+                    <label style="color: #888; display: block; margin-bottom: 5px;">XP</label>
+                    <input type="number" name="xp_reward" value="{{ task.xp_reward }}" min="1"
+                           style="width: 100%; padding: 12px; background: rgba(15, 52, 96, 0.4);
+                                  border: 1px solid rgba(233, 69, 96, 0.3); border-radius: 8px;
+                                  color: #e0e0e0; font-size: 1em;">
+                </div>
+                <div>
+                    <label style="color: #888; display: block; margin-bottom: 5px;">Приоритет</label>
+                    <input type="number" name="priority" value="{{ task.priority }}" min="1" max="5"
+                           style="width: 100%; padding: 12px; background: rgba(15, 52, 96, 0.4);
+                                  border: 1px solid rgba(233, 69, 96, 0.3); border-radius: 8px;
+                                  color: #e0e0e0; font-size: 1em;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <label style="color: #888; display: block; margin-bottom: 5px;">Дедлайн</label>
+                <input type="date" name="deadline" value="{{ task.deadline if task.deadline else '' }}"
+                       style="width: 100%; padding: 12px; background: rgba(15, 52, 96, 0.4);
+                              border: 1px solid rgba(233, 69, 96, 0.3); border-radius: 8px;
+                              color: #e0e0e0; font-size: 1em;">
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <button type="submit" class="btn" style="background: #e94560; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    💾 Сохранить
+                </button>
+                <a href="{{ url_for('tasks.tasks_page') }}" class="btn" style="background: rgba(255,255,255,0.1); color: #e0e0e0; padding: 12px 25px; border-radius: 8px; text-decoration: none;">
+                    ❌ Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

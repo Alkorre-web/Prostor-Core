@@ -1,15 +1,9 @@
-"""
-Регистрация всех Blueprint'ов
-"""
-
-from . import profile, tasks, skills, goals, knowledge, help
-
+from routes.index import bp as index_bp
+from routes.rewards import bp as rewards_bp
+from routes.settings import bp as settings_bp
 
 def register_blueprints(app):
-    """Регистрирует все маршруты в приложении"""
-    app.register_blueprint(profile.bp)
-    app.register_blueprint(tasks.bp)
-    app.register_blueprint(skills.bp)
-    app.register_blueprint(goals.bp)
-    app.register_blueprint(knowledge.bp)
-    app.register_blueprint(help.bp)
+    """Регистрирует все blueprints в приложении"""
+    app.register_blueprint(index_bp)
+    app.register_blueprint(rewards_bp)
+    app.register_blueprint(settings_bp)

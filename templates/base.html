@@ -3,33 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Простор{% endblock %}</title>
-
-    <!-- CSS должен быть в HEAD! -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>{% block title %}LifeProject{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Навигация -->
     <nav class="navbar">
-        <div class="nav-tabs">
-            <span class="nav-brand">Простор</span>
-            <a href="/" class="nav-tab">Профиль</a>
-            <a href="/goals" class="nav-tab">Цели</a>
-            <a href="/tasks" class="nav-tab">Задачи</a>
-            <a href="/skills" class="nav-tab">Дерево навыков</a>
-            <a href="/api" class="nav-tab">API интеграции</a>
-            <a href="/search" class="nav-tab">Локальная база знаний</a>
-            <a href="/settings" class="nav-tab">Настройки</a>
-            <a href="/help" class="nav-tab">Помощь</a>
+        <div class="nav-brand">🎯 LifeProject</div>
+        <div class="nav-links">
+            <a href="{{ url_for('index.index') }}" class="nav-link">Главная</a>
+            <a href="{{ url_for('rewards.rewards_list') }}" class="nav-link">Награды</a>
+            <a href="{{ url_for('settings.setting_page') }}" class="nav-link">Настройки</a>
         </div>
     </nav>
 
-    <!-- ⭐ САМОЕ ВАЖНОЕ: Сюда вставляется контент страниц! -->
-    <div class="container">
+    <main class="container">
         {% block content %}{% endblock %}
-    </div>
-
-    <!-- JS в конце body -->
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </main>
 </body>
 </html>

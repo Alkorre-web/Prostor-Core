@@ -1,0 +1,10 @@
+<!-- Наследуем всё от base.html (меню, стили, структура) -->
+{% extends "base.html" %}
+
+<!-- Меняем заголовок вкладки браузера -->
+{% block title %}Главная - LifeProject{% endblock %}
+
+<!-- Добавляем стили ТОЛЬКО для этой страницы -->
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}

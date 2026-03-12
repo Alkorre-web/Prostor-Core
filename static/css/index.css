@@ -1,0 +1,28 @@
+/* Стили ТОЛЬКО для главной страницы */
+
+.stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-card {
+    background-color: #16213e;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 2px solid #0f3460;
+    text-align: center;
+    min-width: 200px;
+}
+
+.stat-card h3 {
+    color: #aaa;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #e94560;
+}
